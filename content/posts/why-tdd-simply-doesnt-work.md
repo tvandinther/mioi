@@ -5,7 +5,7 @@ date: 2022-03-02T12:59:47+12:00
 draft: true
 author: "Tom van Dinther"
 prism_lineno: false
-tags: ["TDD", "BDD", concepts"]
+tags: ["TDD", "BDD", "concepts"]
 categories: ["TDD"]
 series: ["TDD"]
 comments: true
