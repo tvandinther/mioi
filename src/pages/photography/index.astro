@@ -1,0 +1,12 @@
+---
+import PageTitle from "@components/PageTitle.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+
+import images from "./images";
+---
+<PageLayout pageTitle="Photography | mioi">
+    <PageTitle>Photography</PageTitle>
+    {Object.entries(images).map(([id, url]) => (
+        <img src={url} alt={id} />
+    ))}
+</PageLayout>

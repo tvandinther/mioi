@@ -9,9 +9,7 @@
     (function() {
         var o = false;
         document.getElementById('hamburger')?.addEventListener('click', function() {
-            // @ts-ignore
             window.scrollHiding.header = o;
-            // @ts-ignore
             window.scrollHiding.footer = o;
             document.getElementById('hamburger')?.classList.toggle('open');
             document.getElementById('side-navigation')?.classList.toggle('open');
