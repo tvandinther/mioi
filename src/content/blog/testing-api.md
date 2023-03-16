@@ -1,6 +1,6 @@
 ---
 title: "Testing Web APIs"
-description: "This post describes basic high-level testing strategy for web APIs."
+description: "What are the basic areas at which to test an API? A high-level overview for testing web APIs"
 date: 2022-08-01T16:20:23+12:00
 lastUpdated: 2023-02-08T00:03:00+13:00
 draft: false
