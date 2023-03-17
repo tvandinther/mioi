@@ -1,10 +1,12 @@
 ---
 import BlogPostItem from "@components/BlogPostItem.astro";
 import TagPills from "@components/TagPills.astro";
+import { byLatest } from "@helpers/posts";
 import { getAllTagsCounts } from "@helpers/tags";
 import BlogLayout from "@layouts/BlogLayout.astro";
 import { getCollection } from 'astro:content';
-const latestPosts = (await getCollection('blog')).sort((a, b) => a.data.date < b.data.date ? 1 : -1).slice(0, 5);
+
+const latestPosts = (await getCollection('blog')).sort(byLatest).slice(0, 5);
 const popularTags = Object.entries((await getAllTagsCounts())).sort((a, b) => a[1] < b[1] ? 1 : -1).slice(0, 10);
 ---
 <BlogLayout pageTitle="Home">
