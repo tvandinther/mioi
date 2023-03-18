@@ -15,7 +15,7 @@ const popularTags = Object.entries((await getAllTagsCounts())).sort((a, b) => a[
     Welcome to the mioi blog. I like to write about software development and technology. After official documentation, blogs are my favorite way to learn about new technologies and solve problems. When I fail to find information online, and go through the hard yards to find the solution myself, I like to document my learnings in a blog post to save the next person the trouble. As well as instructional posts, I also like to cover topics such as software development techniques, the tools and conceptual ideas.
   </p>
   <h2 class="text-2xl my-4">Latest Posts</h2>
-  <div class="flex flex-col child:mt-3">
+  <div class="flex flex-col">
     {latestPosts.map(post => <BlogPostItem post={post} />)}
   </div>
   <h2 class="text-2xl my-4">Popular Tags</h2>

@@ -8,16 +8,16 @@ type Props = {
 
 const { post, display = "full" } = Astro.props;
 ---
-<div>
+<div class="font-body">
     <a
-    class="flex flex-col justify-center bg-gray-100 rounded-md p-2 m-2 hover:shadow-lg shadow-md transition-all" 
+    class="flex flex-col justify-center rounded-md p-2 m-2 hover:shadow-lg shadow-md transition-all" 
     href={`/blog/posts/${post.slug}`}>
-    <div class="flex justify-between px-1">
+    <div class="flex justify-between">
         <h1 class="text-lg lg:text-xl font-bold">{post.data.title}</h1>
-        <p>{post.data.date.toLocaleDateString()}</p>
+        <p class="text-sm">{post.data.date.toLocaleDateString()}</p>
     </div>    
         {display == "full" && <div class="relative">
-            <h3 class="overflow-clip text-md text-slate-700 font-bold font-body">{post.data.description}</h3>
+            <h3 class="px-1 overflow-clip text-md text-slate-700">{post.data.description}</h3>
         </div>}
     </a>
 </div>

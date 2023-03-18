@@ -7,7 +7,7 @@ const allPosts = await getCollection('blog');
 ---
 <BlogLayout pageTitle="All Posts">
     <h1 class="text-3xl my-4">All Posts</h1>
-    <div class="flex flex-col child:mt-3">
+    <div class="flex flex-col">
         {allPosts.sort(byLatest).map(post => <BlogPostItem post={post} />)}
     </div>
 </BlogLayout>

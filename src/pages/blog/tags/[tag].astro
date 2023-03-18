@@ -26,7 +26,7 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 <BlogLayout pageTitle={tag ?? ""}>
-    <p>Posts tagged with {tag}</p>
+    <h1 class="text-3xl my-4">Posts tagged with <span class="bg-gray-200 rounded-full px-3 py-1 text-lg font-semibold text-gray-700 mr-2 mb-2">{tag}</span></h1>
     <ul>
       {posts.map((post) => <BlogPostItem post={post} />)}
     </ul>
