@@ -12,7 +12,7 @@ module.exports = {
 				'layout': 'auto 1fr auto',
 			},
 			colors: {
-				'primary': '#1a202c',
+				'primary': '#323c73',
 				'secondary': '#2d3748',
 				'tertiary': '#4a5568',
 				'accent': '#ed8936',
