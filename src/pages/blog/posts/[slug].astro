@@ -18,7 +18,12 @@ type Props = {
 const { post } = Astro.props;
 const { Content } = await post.render();
 ---
-<BlogLayout pageTitle={post.data.title}>
+<BlogLayout pageTitle={post.data.title} >
+    <Fragment slot="head" >
+        <meta property="og:title" content={post.data.title} />
+        <meta property="og:description" content={post.data.description} />
+        {post.data.image && <meta property="og:image" content={post.data.image.url} />}
+    </Fragment>
     <article class="my-8 w-full max-w-3xl m-auto prose lg:prose-lg prose-stone font-body">
         <h1 class="text-4xl">{post.data.title}</h1>
         <address class="text-lg italic">Written by {post.data.author}</address>
