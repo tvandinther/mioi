@@ -8,6 +8,7 @@ type Props = {
 const { pageTitle } = Astro.props;
 ---
 <BaseLayout pageTitle={pageTitle}>
+    <slot name="head" slot="head" />
     <div id="page" class="px-8 py-4 bg-page rounded-tl-[2rem] lg:rounded-tl-[4rem] overflow-y-auto min-h-[calc(100vh-6rem)]">
         <div class="max-w-4xl m-auto">
             <slot />

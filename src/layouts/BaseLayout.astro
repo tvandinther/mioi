@@ -19,6 +19,7 @@ const { pageTitle } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a202c" />
     <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
     <!-- Google tag (gtag.js) -->
     <script async type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-8PPBKZ5GD1"></script>
     <script type="text/partytown">
