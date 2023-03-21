@@ -4,3 +4,7 @@ interface Window {
         footer: Boolean,
     }
 }
+
+declare interface Date {
+    toFormattedDateString(): string;
+}

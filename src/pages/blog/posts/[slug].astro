@@ -22,9 +22,9 @@ const { Content } = await post.render();
     <article class="my-8 w-full max-w-3xl m-auto prose lg:prose-lg prose-stone font-body">
         <h1 class="text-4xl">{post.data.title}</h1>
         <address class="text-lg italic">Written by {post.data.author}</address>
-        <time datetime={post.data.date.toString()}>{post.data.date.toLocaleDateString()}</time>
+        <time datetime={post.data.date.toString()}>{post.data.date.toFormattedDateString()}</time>
         {post.data.lastUpdated && (
-            <p class="text-sm text-gray-500">Last updated: {post.data.lastUpdated.toLocaleDateString()}</p>
+            <p class="text-sm text-gray-500">Last updated: {post.data.lastUpdated.toFormattedDateString()}</p>
         )}
         <TagPills tags={post.data.tags} />
         <Content />
