@@ -7,7 +7,7 @@ image:
   url: "/assets/images/blog/its-okay-to-be-wet_banner.png"
   alt: "Blog post banner image"
 author: "Tom van Dinther"
-tags: ["???"]
+tags: ["Concept"]
 categories: ["Discussion"]
 featured: true
 ---
