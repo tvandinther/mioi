@@ -1,0 +1,16 @@
+---
+import PageTitle from "@components/PageTitle.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
+const pageTitle = "About Me";
+---
+<PageLayout pageTitle={pageTitle}>
+  <PageTitle>FAQ</PageTitle>
+  <p>My personal frequently asked questions. Also known as my frequently given opinions.</p>
+  <!-- <hr class="my-2" /> -->
+  <br />
+  <h2 class="text-2xl">What is your favourite programming language?</h2>
+  <p>Simply language, that would be Haskell. It has a beautiful syntax and conciseness without sacrificing readability (once you know how to read functional expressions).</p>
+  <br />
+  <h2 class="text-2xl">Why don't you write everything in Haskell?</h2>
+  <p>The tooling is often a pain and cross-target compilation is a mission in of itself.</p>
+</PageLayout>

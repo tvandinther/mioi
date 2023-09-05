@@ -1,7 +1,7 @@
 ---
 import Button from "@components/Button.astro";
 import PageTitle from "@components/PageTitle.astro";
-import PageLayout from "../layouts/PageLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 const pageTitle = "About Me";
 ---
 <PageLayout pageTitle={pageTitle}>
@@ -18,6 +18,7 @@ const pageTitle = "About Me";
   <img src="/assets/images/me_1.jpeg" alt="Tom van Dinther" class="shadow-md rounded-lg my-2 w-auto h-auto" />
   <Button link="https://www.linkedin.com/in/tvandinther/">LinkedIn</Button>
   <Button link="https://www.github.com/tvandinther/">GitHub</Button>
+  <Button link="/about/faq">Personal FAQ</Button>
   <hr class="my-2" />
   <h2 class="text-2xl">What am I currently working on and learning?</h2>
   <p>
