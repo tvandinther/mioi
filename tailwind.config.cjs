@@ -18,7 +18,7 @@ module.exports = {
 				'accent': '#ed8936',
 				'accent-light': '#f6ad55',
 				'accent-dark': '#dd6b20',
-				'page': '#f7fafc',
+				'page': '#ffffff',
 			},
 			typography: theme => ({
 				DEFAULT: {
@@ -46,7 +46,7 @@ module.exports = {
 	},
 	plugins: [
 		require('@tailwindcss/typography'),
-		function({ addVariant }) {
+		function ({ addVariant }) {
 			addVariant('child', '& > *');
 		}
 	],
