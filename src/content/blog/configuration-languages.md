@@ -1,5 +1,5 @@
 ---
-title: "What is a Configuration Language and why do I need one?"
+title: "Unlock your Infrastructure-as-Code with the power of Configuration Languages"
 description: "Stop writing JSON and YAML by hand and start authoring data like a pro."
 date: 2025-01-30T18:22:00+2:00
 # lastUpdated: 2023-02-08T00:03:00+13:00
@@ -7,7 +7,7 @@ date: 2025-01-30T18:22:00+2:00
 #   url: "/assets/images/blog/10-reasons-medium_banner.webp"
 #   alt: "Blog post banner image"
 author: "Tom van Dinther"
-tags: ["Configuration", "Kubernetes", "DevOps"]
+tags: ["Configuration", "Kubernetes", "DevOps", "CUE", "KCL"]
 categories: ["Discussion"]
 draft: true
 featured: true
@@ -106,27 +106,10 @@ output:
 ---
 The examples shown above are only a very small part of the power of these languages, and although simple they are exciting to YAML wranglers like myself. As you can gather from the blurbs of CUE and KCL, they both talk about schema, validation, policy and configuration. These are high level concepts, and they need to be to fit on the home page of their websites, but what can you actually do with this?
 
-**Schema validation and policy enforcement**
-- In the IDE via language server protocol plugins
-- In continuous integration workflows via CLI
-- In the Kubernetes API Server via admission webhooks
+![Configuration language use cases](/assets/images/blog/configuration-languages/configuration-language-uses.webp)
 
-**API testing**
-- Using the CLI and some scripts
-- Embedded using an SDK
 
-**Schema authoring**
-- Kubernetes CRDs
-- OpenAPI Specifications
-
-**Build abstractions and improve DevOps**
-- Replace your internal helm charts
-- Provide type-safe parameterised workflow templates
-
-**Go beyond the limits**
-- Use your imagination and reinvent anything that revolves around data
-
-There are so many valuable uses for configuration languages, and they're all made possible by their defining characteristics. So let's talk about them.
+Use your imagination and reinvent anything that revolves around data. There are so many valuable uses for configuration languages, and they're all made possible by their defining characteristics. So let's talk about them.
 ### A Simplified Language
 While inspired by general purpose languages, both CUE and KCL limit the number of language features on offer to keep the toolbox fit-for-purpose. This minimal approach reduces the amount of foot guns present in many other general purpose languages and simplifies the writing and reading of language syntax. A key in how both these languages operate is an effort in the reduction of indirection. In large, complex configurations it could be difficult to pinpoint the line of code responsible for a configuration outcome if complex inheritance structures or overlays and mutability were allowed. As such, both CUE and KCL prioritise immutability, albeit in different ways.
 ### First-Class Policies
@@ -134,9 +117,11 @@ Unlike configuration authoring tools in the past, CUE and KCL include ways to wr
 ### Modules
 CUE and KCL have both embraced the OCI standard to package and distribute modules which can be imported into other modules to form your configuration. The implementation of these are particularly useful for distributing schemas or policy to users. Authors of APIs can provide schema modules such as those for Kubernetes, while security, cloud and platform engineers in the organisation can add policy and abstraction before redistributing it internally for developers to consume by supplying the final layer of data. This ability to import, enhance, and distribute configuration using OCI images is an incredible way to speed up developers, while ensuring correctness and compliance.
 ### Data Agnostic
-There are many data models out there from JSON and YAML to Nix and Lisp. While many tools focus on just one, CUE and KCL have their own intermediate data formats and provide [integrations](https://cuelang.org/docs/integration/) which map data between it and the formats we use. While formats such as Nix and Lisp are not yet supported, many of the common ones are with the list growing over time. Supported import and export formats include the obvious JSON and YAML as well as TOML, Protobuf, JSON Schema, OpenAPI, Kubernetes CRDs, Terraform schemas, and Go Structs. The list is comprehensive, but some formats are only available for import with a partial overlap in support across CUE and KCL.
+There are many data models out there from JSON and YAML to Nix and Lisp. While many tools focus on just one, CUE and KCL have their own intermediate data formats and provide [integrations](https://cuelang.org/docs/integration/) which map data between it and the formats we use. While formats such as Nix and Lisp are not yet supported, many of the common ones are with the list growing over time.
+![CUE data input and output formats](/assets/images/blog/configuration-languages/cue-import-export.webp)
+![KCL data input and output formats](/assets/images/blog/configuration-languages/kcl-import-export.webp)
 ### SDKs
-When a piece of the puzzle is missing for your use case, such as a certain import or export option, all is not lost. CUE and KCL both offer extensive SDKs to allow you to embed the usage of these configuration languages into your own programs. CUE provides a [very comprehensive Go API](https://cuelang.org/docs/concept/how-cue-works-with-go/#using-cues-go-api) to enable anything from using CUE as your application's primary configuration format to implementing a full test suite leveraging the power of CUE's [unification engine](https://cuelang.org/docs/tour/basics/unification/). KCL also offers [SDKs](https://www.kcl-lang.io/docs/reference/xlang-api/overview) and what it lacks in depth compared to CUE, it makes up for in its comprehensiveness. You can utilise the KCL API over HTTP, Go, Python, Rust, .NET, Java, Node.js, Kotlin, Swift, C, C++, Lua, and WASM. The full list (current as of publishing) really needed to be stated to appreciate how comprehensive it is.
+When a piece of the puzzle is missing for your use case, such as a certain import or export option, all is not lost. CUE and KCL both offer extensive SDKs to allow you to embed the usage of these configuration languages into your own programs. CUE provides a [very comprehensive Go API](https://cuelang.org/docs/concept/how-cue-works-with-go/#using-cues-go-api) to enable anything from using CUE as your application's primary configuration format to implementing a full test suite leveraging the power of CUE's [unification engine](https://cuelang.org/docs/tour/basics/unification/). KCL also offers [SDKs](https://www.kcl-lang.io/docs/reference/xlang-api/overview) across an extensive list of languages ranging from Go to Lua.
 ### Automation
 Like tools that have come before, both CUE and KCL output data by invocation, either to stdout or to a provided output file. Though unlike many others, both CUE and KCL implement APIs to enable automation right in the language (this is where *Execute* comes into play for the **E** in CUE). The benefit of this is that you can implement your integration actions close to the data that drives them instead of finding another tool to parse and execute like you'd commonly find a Python script doing. CUE provides a tooling layer for enhancing the CLI with custom [workflow commands](https://cuelang.org/docs/howto/use-your-first-cue-workflow-command/) which can print various data to stdout, write to file, or even [make HTTP requests](https://cuelang.org/docs/howto/fetch-json-data-http/). KCL also offers [system packages](https://www.kcl-lang.io/docs/reference/model/overview) for writing to stdout and file IO with the opportunity to extend capabilities through custom plugins. Though it is important to note that as of the time of publishing, custom plugins require the usage of the KCL SDK rather than the CLI. Something I hope to see made possible via modules in the future.
 
