@@ -2,6 +2,8 @@
 import Button from "@components/Button.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PageLayout from "../layouts/PageLayout.astro";
+import {Picture} from 'astro:assets';
+import meImage from "images/me_1.jpeg"
 const pageTitle = "About Me";
 ---
 <PageLayout pageTitle={pageTitle}>
@@ -15,13 +17,16 @@ const pageTitle = "About Me";
   <p>
     My name is Tom van Dinther and I work professionally in software. This is a picture of me at the top of a hill in New Zealand where I used to live, but I now live and work in The Netherlands.
   </p>
-  <img src="/assets/images/me_1.webp" alt="Tom van Dinther" class="shadow-md rounded-lg my-2 w-auto h-auto" />
+  <Picture src={meImage} alt="Tom van Dinther" class="shadow-md rounded-lg my-2 w-auto h-auto" />
   <Button link="https://www.linkedin.com/in/tvandinther/">LinkedIn</Button>
   <Button link="https://www.github.com/tvandinther/">GitHub</Button>
   <hr class="my-2" />
   <h2 class="text-2xl">What am I currently working on and learning?</h2>
   <p>
-    In my profressional day-to-day I work as a consultant, practising DevOps and platform engineering. This involves a lot of bash and YAML. So, to fill my thirst for programming I like to get stuck into Haskell and the continued development of this website.
+    In my profressional day-to-day I work as a consultant, practising DevOps and platform engineering. This involves a lot of bash and YAML. So, to fill my thirst for programming I like to get stuck into Haskell, creating DevOps tools, and the continued development of this website.
+    <br/>
+    <br/>
+    I am also a part of the communities for the CUE and KCL configuration languages. I think that these are an exciting development in the world of platform engineering and you will see plenty of content on my blog about these.
   </p>
   <hr class="my-2" />
   <h2 class="text-2xl">Who do I follow in the tech-sphere?</h2>
@@ -29,24 +34,28 @@ const pageTitle = "About Me";
     I have a few favourite YouTube channels and blogs that I follow. I highly recommend each one of them for the topics they cover.
   </p>
   <br/>
+
+  <h3 class="text-xl">Viktor Farcic (DevOps Toolkit)</h3>
+  <Button link="https://www.youtube.com/c/DevOpsToolkit">YouTube</Button>
+  <p>
+    Every week Viktor releases a new video to his YouTube channel to bring us a new idea, technology, or perspective to the world of DevOps and platform engineering. If you only have 30 minutes per week to stay up-to-date on this space, there is no better resource.
+  </p>
+  <br/>
+
   <h3 class="text-xl">Dave Farley (Continuous Delivery)</h3>
   <Button link="https://www.youtube.com/@ContinuousDelivery">YouTube</Button>
   <p>
     Dave Farley is an expert on software delivery and an excellent communicator. His YouTube channel covers all sorts of topics around software development and delivery. No matter which tech stacks you work with, this channel is a must-subscribe.
   </p>
   <br/>
-  <h3 class="text-xl">Nick Chapsas</h3>
-  <Button link="https://www.youtube.com/@nickchapsas">YouTube</Button>
-  <p>
-    If you write ASP.NET Core applications in C#, then you should definitely subscribe to Nick's channel. His videos range from instructional series on how to use various features and frameworks to develop microservice architectures in C# to covering the latest language features so you will always be in the know with C#.
-  </p>
-  <br/>
+  
   <h3 class="text-xl">Mark Seemann</h3>
   <Button link="https://blog.ploeh.dk/">Blog</Button>
   <p>
     Mark Seemann is an experienced software consultant. He is a favourite of mine because his teachings are a great intersection of C# and functional programming. There are plenty of pearls of wisdom in his blog and talks he has given which can be found on YouTube.
   </p>
   <br/>
+  
   <h3 class="text-xl">Scott Wlaschin</h3>
   <Button link="https://fsharpforfunandprofit.com/">Blog</Button>
   <p>
