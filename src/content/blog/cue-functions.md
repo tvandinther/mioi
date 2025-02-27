@@ -5,8 +5,9 @@ date: 2025-02-27T12:10:00+1:00
 author: "Tom van Dinther"
 tags: ["CUE"]
 categories: ["Discussion"]
+featured: true
 ---
-CUE has been a difficult language for me to conceptualise. However the more I try to do with it, the more I start to see the intentions behind it. CUE is a logic-based language and trying to apply the procedural, imperative thinking I am accustomed to from popular general purpose programming languages is me trying to shove a a square peg in a round hole. And while this may have worked for the crew of Apollo 13, they did so out of necessity, not from design.
+[CUE](https://cuelang.org/) has been a difficult language for me to conceptualise. However the more I try to do with it, the more I start to see the intentions behind it. CUE is a logic-based language and trying to apply the procedural, imperative thinking I am accustomed to from popular general purpose programming languages is me trying to shove a a square peg in a round hole. And while this may have worked for the crew of Apollo 13, they did so out of necessity, not from design.
 
 As a result, I often fall victim to trying to solve an [XY problem](https://xyproblem.info/) in CUE. This is quite common when you experience a paradigm shift and it is one of the reasons I recommend software developers to learn at least a little bit of Haskell. I encountered this sort of roadblock many times on my journey to learn Haskell until it eventually culminated into a moment of seeing the light. It meant that I could finally see how an alternative paradigm projects onto a particular problem space. This moment of seeing the light repeats continuously on the learning journey as you crest each local maxima of the learning curve.
 
