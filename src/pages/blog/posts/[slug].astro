@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import BlogLayout from "@layouts/BlogLayout.astro";
 import TagPills from "@components/TagPills.astro";
+import { getPostBanner } from "@helpers/posts";
 
 export async function getStaticPaths() {
     const allPosts = await getCollection("blog");
@@ -18,7 +19,7 @@ type Props = {
 const { post } = Astro.props;
 const { Content } = await post.render();
 ---
-<BlogLayout pageTitle={post.data.title} bannerImage={post.data.image?.url} >
+<BlogLayout pageTitle={post.data.title} bannerImage={post.data.image?.url ?? await getPostBanner(post)} >
     <Fragment slot="head" >
         <meta property="og:title" content={post.data.title} />
         <meta property="og:description" content={post.data.description} />
