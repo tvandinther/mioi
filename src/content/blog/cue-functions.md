@@ -13,6 +13,7 @@ As a result, I often fall victim to trying to solve an [XY problem](https://xypr
 
 Given this learning experience I had with Haskell, I try to approach learning CUE with the same mindset. Despite being aware of the XY problem, I repeat the pitfall over and over, eventually pulling myself out of it and seeing the light once again. Most recently, I experienced this in CUE with the concept of **functions**.
 
+---
 A function is a simple concept in procedural programming, and a whole other world in functional programming. In both cases we learn it as the foundational building block to building abstractions and driving code re-use. It doesn't take long in our CUE journey until we come across a pattern of data which we'd like to abstract away and the light bulb immediately turns on: I need a function.
 
 After some searching on the CUE documentation you realise this is not a part of the language syntax. But after some clever hacking on your own or discovering patterns others have formed online, you mould your abstraction into something coined as the *function pattern*. The syntax isn't pretty and you ponder what an official syntactic sugar may look like.
@@ -131,9 +132,9 @@ manifests: [{
 }]
 ```
 
-Though a function viewed through the eyes of CUE is interesting. The *function pattern* is only half a configuration and masks the "inputs" with the "outputs". And viewed procedurally, this is exactly what a function is; a projection of inputs to outputs. As we saw in the previous example, a function's inputs and outputs fight for "truth".
+Though a function viewed through the eyes of CUE is interesting. The *function pattern* is only half of a configuration and masks the "inputs" with the "outputs". Viewed procedurally, this is exactly what a function is; a projection of inputs to outputs. As we saw in the previous example, a function's inputs and outputs fight for "truth".
 
-Consider the Kubernetes resource definition, it is typically made up of metadata, specification, and status. In a Kubernetes resource, the specification is our abstraction and the status is the implementation of the abstraction. You could also look at this resource definition as a function with a unified input (spec) and output (status).
+Consider the Kubernetes resource definition, it is typically made up of *metadata*, *specification*, and *status*. In a Kubernetes resource, the specification is our abstraction and the status is the implementation of the abstraction. You could also look at this resource definition as a function with a unified input (spec) and output (status).
 
 We can look at a CUE abstraction in the same way. The user's input is their specification, and the output the Kubernetes manifests. This structure starts to make a lot more sense when you start requiring the creation of declarative resources destined for consumers other than the Kubernetes API. Perhaps a GitHub actions file, metadata for an application registry, or a piece of documentation.
 
@@ -176,7 +177,7 @@ app: spec: {
 }
 ```
 
-CUE offers path selectors to hone in on the configuration we are interested in, as well as the built-in CUE commands scripting layer. 
+CUE offers path selectors to hone in on the configuration we are interested in, or as an alternative we could also use the [workflow commands](https://cuelang.org/search/?q=tag:%22workflow%20command%22) scripting layer built into CUE. 
 ```sh
 $ cue eval app.cue -c -e app.kubernetesManifests
 [{
