@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getPostBanner } from "@helpers/posts";
 
 type Props = {
     post: CollectionEntry<"blog">
@@ -11,7 +12,7 @@ const { post, display = "full" } = Astro.props;
 <div transition:name={post.slug} class="font-body">
     <a
     class="flex flex-col justify-center rounded-md p-2 m-2 hover:shadow-lg shadow-md transition-all duration-300 group bg-cover hover:bg-bottom" 
-    style={`background-image: url(${post.data.image?.url});`}
+    style={`background-image: url(${post.data.image?.url ?? await getPostBanner(post) });`}
     href={`/blog/posts/${post.slug}`}>
     <div class="bg-white bg-opacity-80 backdrop-blur-sm p-2 mt-16 rounded-sm group-hover:outline outline-primary">
         <div class="grid grid-cols-[1fr_auto] justify-between">
