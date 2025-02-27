@@ -2,10 +2,6 @@
 title: "CUE is functional without functions"
 description: "You don't need the function pattern in CUE, try this instead."
 date: 2025-02-27T12:10:00+1:00
-# lastUpdated: 2023-02-08T00:03:00+13:00
-image:
-  url: "/assets/images/blog/10-reasons-medium_banner.webp"
-  alt: "Blog post banner image"
 author: "Tom van Dinther"
 tags: ["CUE"]
 categories: ["Discussion"]
