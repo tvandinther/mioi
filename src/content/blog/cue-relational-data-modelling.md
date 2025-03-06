@@ -7,7 +7,7 @@ tags: ["CUE", "SQL"]
 categories: ["Discussion"]
 featured: true
 ---
-CUE is an interesting language. Its syntax is a window into a complex directional graph of data. When you look at CUE beyond *fancy JSON*, you start to ask some interesting questions. Can you do relational data modelling in CUE? Can you use SQL to query the data defined in CUE? The short answer is **yes**, and the long answer is **keep reading**.
+CUE is an interesting language. Its syntax is a window into a complex directional graph of data. When you look at CUE beyond *fancy JSON*, you start to ask some interesting questions. Can you model relational data in CUE? Can you use SQL to query the data defined in CUE? The short answer is **yes**, and the long answer is **keep reading**.
 
 ---
 Relational data models are a graph of entities connected by primary key and foreign key relationships. So why not model these relationships in CUE? Let's start building a relational model of a university. Our university requires at least one faculty offering at least one course before we can start accepting students and enrolments. We create a definition for `Course` and `Faculty` just like you would define a relational table. Except instead of defining a foreign key relation, we simply refer to the definition.
