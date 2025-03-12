@@ -19,7 +19,7 @@ This is the point at which most infrastructure-as-code tools stop. They are desi
 
 The [fourth principle of GitOps](https://opengitops.dev/#principles) asserts that system state and desired state are **continuously reconciled**. This means that throughout a system's life, drift in configuration is constantly identified and corrected back to the desired configuration. Unlike traditional deployment pipelines which are driven by triggers such as changes to the desired state, reconciliation is driven by divergence between what is actually observed and what is desired. This is a powerful distinction as it protects against external factors influencing misbehaviour in systems over time by tackling the backwards propagation of changes from downstream subsystems.
 
-> "In Kubernetes, controllers are control loops that watch the state of your [cluster](https://kubernetes.io/docs/reference/glossary/?all=true#term-cluster), then make or request changes where needed. Each controller tries to move the current cluster state closer to the desired state." — https://kubernetes.io/docs/concepts/architecture/controller/
+> "In Kubernetes, controllers are control loops that watch the state of your [cluster](https://kubernetes.io/docs/reference/glossary/?all=true#term-cluster), then make or request changes where needed. Each controller tries to move the current cluster state closer to the desired state."—https://kubernetes.io/docs/concepts/architecture/controller/
 
 Kubernetes controllers are a practical embodiment of this principle with operators extending this idea to encompass both the controller and the set of data structures it has agency over. This is the primary way in which a Kubernetes cluster is extended to provide more functionality.
 
