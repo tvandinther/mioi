@@ -6,5 +6,5 @@ const tagCounts = await getAllTagsCounts();
 ---
 <BlogLayout pageTitle="Tags">
   <h1 class="text-3xl my-4">All Tags</h1>
-  <TagPills tags={Object.entries(tagCounts)} />
+  <TagPills tags={Object.entries(tagCounts).toSorted(([, aCount], [, bCount]) => bCount - aCount)} />
 </BlogLayout>

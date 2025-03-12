@@ -33,6 +33,9 @@ module.exports = {
 							color: '#942d00',
 							backgroundColor: '#fff2eb',
 							borderRadius: '0.25rem',
+						},
+						blockquote: {
+							quotes: "none"
 						}
 					}
 				}

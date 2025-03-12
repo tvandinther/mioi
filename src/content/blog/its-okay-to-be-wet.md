@@ -12,7 +12,7 @@ tags: ["Refactoring", "Abstraction", "Hot Take"]
 categories: ["Discussion"]
 featured: true
 ---
-You may have heard of **D**on’t **R**epeat **Y**ourself (DRY). For the uninitiated, it's about refactoring to remove repetition in your code. It’s often over-emphasised as a golden rule of software development — that duplicated code should be avoided. This type of refactoring isn't free, so consider whether the cost is worth the potential benefits. What if there is value to the contrarian backronym and to **W**rite **E**verything **T**wice (WET)?
+You may have heard of **D**on’t **R**epeat **Y**ourself (DRY). For the uninitiated, it's about refactoring to remove repetition in your code. It’s often over-emphasised as a golden rule of software development—that duplicated code should be avoided. This type of refactoring isn't free, so consider whether the cost is worth the potential benefits. What if there is value to the contrarian backronym and to **W**rite **E**verything **T**wice (WET)?
 
 > The price of the DRY refactor is *coupling*.
 > 
