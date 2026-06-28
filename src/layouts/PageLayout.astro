@@ -28,7 +28,7 @@ const hasSubNav = Astro.slots.has('sub-navigation');
     )}
 
     {hasSubNav && (
-        <div id="sub-nav" class="sticky top-16 z-30 border-b border-line/70 bg-bg/80 backdrop-blur-md transition-[top] duration-300 [&.header-hidden]:top-0">
+        <div id="sub-nav" class="sticky top-16 z-30 border-b border-line/70 bg-bg/80 backdrop-blur-md transition-transform duration-300 ease-out [&.header-hidden]:-translate-y-16">
             <div class="mx-auto flex max-w-content items-center gap-1 overflow-x-auto px-5 py-2 sm:px-8 lg:px-10">
                 <slot name="sub-navigation" />
             </div>

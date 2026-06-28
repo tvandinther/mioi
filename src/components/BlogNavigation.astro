@@ -1,12 +1,13 @@
 ---
 const tabs = [
-    { href: "/blog", label: "Overview", exact: true },
+    { href: "/blog", label: "Overview" },
     { href: "/blog/posts", label: "All Posts" },
     { href: "/blog/tags", label: "Tags" },
 ];
-const path = Astro.url.pathname;
-const active = (t: { href: string; exact?: boolean }) =>
-    t.exact ? path === t.href || path === t.href + "/" : path.startsWith(t.href);
+const path = Astro.url.pathname.replace(/\/$/, "");
+// Each tab is only active on its own index page — detail pages
+// (/blog/posts/<slug>, /blog/tags/<tag>) highlight nothing.
+const active = (t: { href: string }) => path === t.href;
 ---
 {tabs.map((t) => (
     <a
