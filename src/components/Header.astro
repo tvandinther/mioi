@@ -30,7 +30,11 @@ import ThemeToggle from "./ThemeToggle.astro";
       window.addEventListener("scroll", function () {
         var c = window.scrollY;
         if (window.scrollHiding && window.scrollHiding.header) {
-          (p > c || c < 80) ? h.classList.remove("hide") : h.classList.add("hide");
+          var hide = !(p > c || c < 80);
+          h.classList.toggle("hide", hide);
+          // keep the sticky sub-navigation docked to the header as it hides/shows
+          var sub = document.getElementById("sub-nav");
+          if (sub) sub.classList.toggle("header-hidden", hide);
         }
         p = c;
       }, { passive: true });

@@ -45,7 +45,7 @@ const banner = post.data.image?.url ?? await getPostBanner(post);
             <div class="mt-6"><TagPills tags={post.data.tags} /></div>
         </header>
 
-        <div class="prose prose-mioi lg:prose-lg">
+        <div class="prose prose-mioi break-words lg:prose-lg">
             <Content />
         </div>
 
