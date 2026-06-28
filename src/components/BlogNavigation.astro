@@ -1,8 +1,20 @@
 ---
-import Button from './Button.astro';
+const tabs = [
+    { href: "/blog", label: "Overview", exact: true },
+    { href: "/blog/posts", label: "All Posts" },
+    { href: "/blog/tags", label: "Tags" },
+];
+const path = Astro.url.pathname;
+const active = (t: { href: string; exact?: boolean }) =>
+    t.exact ? path === t.href || path === t.href + "/" : path.startsWith(t.href);
 ---
-<div class="flex">
-    <Button link="/blog">Blog Home</Button>
-    <Button link="/blog/posts">All Posts</Button>
-    <Button link="/blog/tags">Tags</Button>
-</div>
+{tabs.map((t) => (
+    <a
+        href={t.href}
+        aria-current={active(t) ? "page" : undefined}
+        class={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-wide transition-colors
+            ${active(t) ? "bg-ink text-bg" : "text-muted hover:bg-elevated hover:text-ink"}`}
+    >
+        {t.label}
+    </a>
+))}

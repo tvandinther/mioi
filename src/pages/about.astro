@@ -1,64 +1,110 @@
 ---
-import Button from "@components/Button.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PageLayout from "../layouts/PageLayout.astro";
-import {Picture} from 'astro:assets';
-import meImage from "images/me_1.jpeg"
-const pageTitle = "About Me";
+import { Picture } from 'astro:assets';
+import meImage from "images/me_1.jpeg";
+
+const pageTitle = "About — mioi";
+
+const recommendations = [
+  {
+    name: "Viktor Farcic",
+    handle: "DevOps Toolkit",
+    href: "https://www.youtube.com/c/DevOpsToolkit",
+    cta: "YouTube",
+    note: "Every week, a new idea, technology or perspective on DevOps and platform engineering. If you only have 30 minutes a week to stay current in this space, there is no better resource.",
+  },
+  {
+    name: "Dave Farley",
+    handle: "Continuous Delivery",
+    href: "https://www.youtube.com/@ContinuousDelivery",
+    cta: "YouTube",
+    note: "An expert on software delivery and an excellent communicator. No matter which stack you work with, this channel is a must-subscribe.",
+  },
+  {
+    name: "Mark Seemann",
+    handle: "ploeh.dk",
+    href: "https://blog.ploeh.dk/",
+    cta: "Blog",
+    note: "An experienced consultant whose teaching sits at the intersection of C# and functional programming. There are plenty of pearls of wisdom in his blog and talks.",
+  },
+  {
+    name: "Scott Wlaschin",
+    handle: "F# for Fun and Profit",
+    href: "https://fsharpforfunandprofit.com/",
+    cta: "Blog",
+    note: "A massive proponent of F#. His writing on functional programming and domain design is invaluable — even if you never touch F#, it will level up your design.",
+  },
+];
 ---
-<PageLayout pageTitle={pageTitle}>
-  <PageTitle>About</PageTitle>
-  <h2 class="text-2xl">What is mioi?</h2>
-  <p>
-    <strong>mioi</strong> is my personal website. It's a place where I can share my thoughts and projects in my career in software. I may also showcase my various hobbies at mioi as well. <strong>mioi</strong> can be a word or an acronym. I think of it to mean <i>miscellaneous items of interest</i> as a catch-all for the reasons you may be visiting the website.
-  </p>
-  <hr class="my-2" />
-  <h2 class="text-2xl">Who am I?</h2>
-  <p>
-    My name is Tom van Dinther and I work professionally in software. This is a picture of me at the top of a hill in New Zealand where I used to live, but I now live and work in The Netherlands.
-  </p>
-  <Picture src={meImage} alt="Tom van Dinther" class="shadow-md rounded-lg my-2 w-auto h-auto" />
-  <Button link="https://www.linkedin.com/in/tvandinther/">LinkedIn</Button>
-  <Button link="https://www.github.com/tvandinther/">GitHub</Button>
-  <hr class="my-2" />
-  <h2 class="text-2xl">What am I currently working on and learning?</h2>
-  <p>
-    In my profressional day-to-day I work as a consultant, practising DevOps and platform engineering. This involves a lot of bash and YAML. So, to fill my thirst for programming I like to get stuck into Haskell, creating DevOps tools, and the continued development of this website.
-    <br/>
-    <br/>
-    I am also a part of the communities for the CUE and KCL configuration languages. I think that these are an exciting development in the world of platform engineering and you will see plenty of content on my blog about these.
-  </p>
-  <hr class="my-2" />
-  <h2 class="text-2xl">Who do I follow in the tech-sphere?</h2>
-  <p>
-    I have a few favourite YouTube channels and blogs that I follow. I highly recommend each one of them for the topics they cover.
-  </p>
-  <br/>
+<PageLayout pageTitle={pageTitle} description="About Tom van Dinther and the mioi website.">
+  <PageTitle eyebrow="About">Hello, I'm Tom.</PageTitle>
 
-  <h3 class="text-xl">Viktor Farcic (DevOps Toolkit)</h3>
-  <Button link="https://www.youtube.com/c/DevOpsToolkit">YouTube</Button>
-  <p>
-    Every week Viktor releases a new video to his YouTube channel to bring us a new idea, technology, or perspective to the world of DevOps and platform engineering. If you only have 30 minutes per week to stay up-to-date on this space, there is no better resource.
-  </p>
-  <br/>
+  <!-- Intro + portrait -->
+  <div class="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-start">
+    <div class="space-y-5 text-lg leading-relaxed text-muted" data-reveal>
+      <p>
+        I work professionally in software as a consultant, practising DevOps and platform
+        engineering. I'm currently based in The Netherlands, having moved from New Zealand —
+        where the photo on the right was taken, at the top of a hill I used to call home.
+      </p>
+      <p>
+        Day to day that means a lot of <span class="text-ink">bash and YAML</span>. To scratch the
+        programming itch I get stuck into <span class="text-ink">Haskell</span>, build DevOps tools,
+        and keep developing this website. I'm also active in the
+        <span class="text-ink">CUE</span> and <span class="text-ink">KCL</span> communities — I think
+        type-safe configuration is one of the most exciting developments in platform engineering, and
+        you'll find plenty about it on the blog.
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a href="https://www.linkedin.com/in/tvandinther/" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 font-mono text-[13px] uppercase tracking-wide text-bg transition-colors hover:bg-accent">
+          LinkedIn <span class="transition-transform group-hover:translate-x-1">↗</span>
+        </a>
+        <a href="https://www.github.com/tvandinther/" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[13px] uppercase tracking-wide text-ink transition-colors hover:border-accent hover:text-accent">
+          GitHub <span class="transition-transform group-hover:translate-x-1">↗</span>
+        </a>
+      </div>
+    </div>
 
-  <h3 class="text-xl">Dave Farley (Continuous Delivery)</h3>
-  <Button link="https://www.youtube.com/@ContinuousDelivery">YouTube</Button>
-  <p>
-    Dave Farley is an expert on software delivery and an excellent communicator. His YouTube channel covers all sorts of topics around software development and delivery. No matter which tech stacks you work with, this channel is a must-subscribe.
-  </p>
-  <br/>
-  
-  <h3 class="text-xl">Mark Seemann</h3>
-  <Button link="https://blog.ploeh.dk/">Blog</Button>
-  <p>
-    Mark Seemann is an experienced software consultant. He is a favourite of mine because his teachings are a great intersection of C# and functional programming. There are plenty of pearls of wisdom in his blog and talks he has given which can be found on YouTube.
-  </p>
-  <br/>
-  
-  <h3 class="text-xl">Scott Wlaschin</h3>
-  <Button link="https://fsharpforfunandprofit.com/">Blog</Button>
-  <p>
-    Scott is a software consultant and massive proponent for F#. His blog posts and talks on the topic of functional programming and domain design are invaluable. Even if you don't use F# or functional programming, the learnings from his blog and talks will take your software design to the next level.
-  </p>
+    <figure class="relative" data-reveal style="--reveal-delay: 100ms">
+      <div class="overflow-hidden rounded-2xl border border-line">
+        <Picture src={meImage} alt="Tom van Dinther" class="h-auto w-full" />
+      </div>
+      <figcaption class="mt-3 font-mono text-xs uppercase tracking-wide text-faint">Tom van Dinther · Aotearoa</figcaption>
+    </figure>
+  </div>
+
+  <!-- What is mioi -->
+  <section class="mt-20 border-t border-line pt-12">
+    <h2 class="mb-4 font-display text-2xl font-semibold tracking-tight text-ink" data-reveal>What is mioi?</h2>
+    <p class="max-w-2xl text-lg leading-relaxed text-muted" data-reveal>
+      <span class="text-ink">mioi</span> is my personal website — a place to share my thoughts and
+      projects from a career in software, and the occasional hobby. It can be a word or an acronym;
+      I think of it as <em class="text-ink not-italic">miscellaneous items of interest</em>, a
+      catch-all for whatever reason brought you here.
+    </p>
+  </section>
+
+  <!-- Recommendations -->
+  <section class="mt-20 border-t border-line pt-12">
+    <h2 class="mb-2 font-display text-2xl font-semibold tracking-tight text-ink" data-reveal>People worth following</h2>
+    <p class="mb-8 max-w-2xl text-muted" data-reveal>
+      A few favourites from the tech-sphere. I recommend every one of them for the topics they cover.
+    </p>
+    <div class="grid gap-5 sm:grid-cols-2">
+      {recommendations.map((r) => (
+        <a href={r.href} target="_blank" rel="noopener" data-reveal
+           class="group flex flex-col rounded-2xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/50">
+          <div class="flex items-baseline justify-between gap-3">
+            <h3 class="font-display text-xl font-semibold tracking-tight text-ink transition-colors group-hover:text-accent">{r.name}</h3>
+            <span class="shrink-0 font-mono text-[11px] uppercase tracking-wide text-faint">{r.cta} ↗</span>
+          </div>
+          <p class="mb-3 font-mono text-xs text-accent">{r.handle}</p>
+          <p class="text-sm leading-relaxed text-muted">{r.note}</p>
+        </a>
+      ))}
+    </div>
+  </section>
 </PageLayout>

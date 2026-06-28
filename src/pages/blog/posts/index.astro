@@ -2,12 +2,13 @@
 import BlogLayout from "@layouts/BlogLayout.astro";
 import { getCollection } from 'astro:content';
 import BlogPostItem from "@components/BlogPostItem.astro";
+import PageTitle from "@components/PageTitle.astro";
 import { byLatest } from "@helpers/posts";
-const allPosts = await getCollection('blog');
+const allPosts = (await getCollection('blog')).sort(byLatest);
 ---
-<BlogLayout pageTitle="All Posts">
-    <h1 class="text-3xl my-4">All Posts</h1>
-    <div class="flex flex-col">
-        {allPosts.sort(byLatest).map(post => <BlogPostItem post={post} />)}
+<BlogLayout pageTitle="All Posts" description="Every post on the mioi blog.">
+    <PageTitle eyebrow={`${allPosts.length} posts`}>All Posts</PageTitle>
+    <div class="flex flex-col gap-1">
+        {allPosts.map(post => <BlogPostItem post={post} />)}
     </div>
 </BlogLayout>

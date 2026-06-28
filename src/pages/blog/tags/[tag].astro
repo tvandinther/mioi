@@ -26,9 +26,16 @@ type Props = {
 const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
-<BlogLayout pageTitle={tag ?? ""}>
-    <h1 class="text-3xl my-4">Posts tagged with <span transition:name=`tag-${tag}` class="bg-gray-200 rounded-full px-3 py-1 text-lg font-semibold text-gray-700 mr-2 mb-2 whitespace-pre">{tag}</span></h1>
-    <ul>
+<BlogLayout pageTitle={`#${tag}`} description={`Posts tagged ${tag}.`}>
+    <div class="mb-10" data-reveal>
+        <p class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
+            <span class="inline-block h-px w-6 bg-accent"></span>{posts.length} {posts.length === 1 ? "post" : "posts"}
+        </p>
+        <h1 class="font-display text-4xl font-semibold tracking-tightest text-ink sm:text-5xl">
+            <span class="text-faint">#</span><span transition:name={`tag-${tag}`}>{tag}</span>
+        </h1>
+    </div>
+    <div class="flex flex-col gap-1">
       {posts.map((post) => <BlogPostItem post={post} />)}
-    </ul>
+    </div>
 </BlogLayout>

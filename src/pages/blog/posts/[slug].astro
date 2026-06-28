@@ -4,11 +4,12 @@ import type { CollectionEntry } from "astro:content";
 import BlogLayout from "@layouts/BlogLayout.astro";
 import TagPills from "@components/TagPills.astro";
 import { getPostBanner } from "@helpers/posts";
+import "@helpers/utility";
 
 export async function getStaticPaths() {
     const allPosts = await getCollection("blog");
     return allPosts.map((post) => ({
-        params: { slug: post.slug }, props: { post } 
+        params: { slug: post.slug }, props: { post }
     }));
 }
 
@@ -18,21 +19,40 @@ type Props = {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const banner = post.data.image?.url ?? await getPostBanner(post);
 ---
-<BlogLayout pageTitle={post.data.title} bannerImage={post.data.image?.url ?? await getPostBanner(post)} >
-    <Fragment slot="head" >
+<BlogLayout pageTitle={post.data.title} description={post.data.description} bannerImage={banner}>
+    <Fragment slot="head">
         <meta property="og:title" content={post.data.title} />
         <meta property="og:description" content={post.data.description} />
+        <meta property="og:image" content={banner} />
     </Fragment>
-    <article class="my-8 w-full max-w-3xl m-auto prose lg:prose-lg prose-stone font-body">
-        <h1 transition:name={`title-${post.slug}`} class="text-4xl">{post.data.title}</h1>
-        <address class="text-lg italic">Written by {post.data.author}</address>
-        <time datetime={post.data.date.toString()}>{post.data.date.toFormattedDateString()}</time>
-        {post.data.lastUpdated && (
-            <p class="text-sm text-gray-500">Last updated: {post.data.lastUpdated.toFormattedDateString()}</p>
-        )}
-        <TagPills tags={post.data.tags} />
-        <Content />
+
+    <article class="mx-auto max-w-3xl">
+        <header class="mb-10 border-b border-line pb-8">
+            <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wide text-faint">
+                <time datetime={post.data.date.toString()}>{post.data.date.toFormattedDateString()}</time>
+                <span class="text-line">·</span>
+                <span>{post.data.author}</span>
+                {post.data.lastUpdated && (
+                    <><span class="text-line">·</span><span>Updated {post.data.lastUpdated.toFormattedDateString()}</span></>
+                )}
+            </div>
+            <h1 transition:name={`title-${post.slug}`} class="font-display text-4xl font-semibold leading-[1.08] tracking-tightest text-ink sm:text-5xl">
+                {post.data.title}
+            </h1>
+            <p class="mt-5 text-lg leading-relaxed text-muted">{post.data.description}</p>
+            <div class="mt-6"><TagPills tags={post.data.tags} /></div>
+        </header>
+
+        <div class="prose prose-mioi lg:prose-lg">
+            <Content />
+        </div>
+
+        <footer class="mt-16 border-t border-line pt-8">
+            <a href="/blog/posts" class="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wide text-muted transition-colors hover:text-accent">
+                <span aria-hidden="true" class="transition-transform group-hover:-translate-x-1">←</span> All posts
+            </a>
+        </footer>
     </article>
 </BlogLayout>
-  

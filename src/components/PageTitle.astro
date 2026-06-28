@@ -1,2 +1,17 @@
-<h1 class="text-3xl my-4"><slot /></h1>
-<hr class="my-4" />
+---
+type Props = {
+    eyebrow?: string;
+    align?: "left" | "center";
+};
+const { eyebrow, align = "left" } = Astro.props;
+---
+<div class={`mb-10 ${align === "center" ? "text-center" : ""}`} data-reveal>
+    {eyebrow && (
+        <p class={`mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent ${align === "center" ? "justify-center" : ""}`}>
+            <span class="inline-block h-px w-6 bg-accent"></span>{eyebrow}
+        </p>
+    )}
+    <h1 class="font-display text-4xl font-semibold tracking-tightest text-ink sm:text-5xl">
+        <slot />
+    </h1>
+</div>

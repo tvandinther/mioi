@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPostBanner } from "@helpers/posts";
+import "@helpers/utility";
 
 type Props = {
     post: CollectionEntry<"blog">
@@ -8,22 +9,38 @@ type Props = {
 }
 
 const { post, display = "full" } = Astro.props;
+const banner = post.data.image?.url ?? await getPostBanner(post);
+const date = post.data.date.toISOString().split('T')[0];
+const readableDate = post.data.date.toFormattedDateString();
+const primaryTag = post.data.tags?.[0];
 ---
-<div transition:name={post.slug} class="font-body">
-    <a
-    class="flex flex-col justify-center rounded-md p-2 m-2 hover:shadow-lg shadow-md transition-all duration-300 group bg-cover hover:bg-bottom" 
-    style={`background-image: url(${post.data.image?.url ?? await getPostBanner(post) });`}
-    href={`/blog/posts/${post.slug}`}>
-    <div class="bg-white bg-opacity-80 backdrop-blur-sm p-2 mt-16 rounded-sm group-hover:outline outline-primary">
-        <div class="grid grid-cols-[1fr_auto] justify-between">
-            <h1 transition:name={`title-${post.slug}`} class="text-lg lg:text-xl font-bold">{post.data.title}</h1>
-            <p class="text-sm">{post.data.date.toISOString().split('T')[0]}</p>
-        </div>    
-            {display == "full" && (
-            <div class="relative">
-                <h3 class="px-1 overflow-clip text-md text-slate-700">{post.data.description}</h3>
-            </div>
-            )}
+<a
+    href={`/blog/posts/${post.slug}`}
+    transition:name={post.slug}
+    data-reveal
+    class="group grid grid-cols-[1fr] gap-4 rounded-2xl border border-transparent p-3 transition-all duration-300
+           hover:border-line hover:bg-surface sm:grid-cols-[auto_1fr] sm:gap-5"
+>
+    <div class="relative hidden h-24 w-40 shrink-0 overflow-hidden rounded-xl border border-line sm:block">
+        <div
+            style={`background-image: url(${banner});`}
+            class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        ></div>
     </div>
-    </a>
-</div>
+
+    <div class="flex min-w-0 flex-col justify-center">
+        <div class="mb-1.5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-wide text-faint">
+            <time datetime={date}>{readableDate}</time>
+            {primaryTag && (<><span class="text-line">/</span><span class="text-accent">{primaryTag}</span></>)}
+        </div>
+        <h3
+            transition:name={`title-${post.slug}`}
+            class="font-display text-lg font-semibold leading-snug tracking-tight text-ink transition-colors group-hover:text-accent sm:text-xl"
+        >
+            {post.data.title}
+        </h3>
+        {display === "full" && (
+            <p class="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{post.data.description}</p>
+        )}
+    </div>
+</a>

@@ -4,23 +4,38 @@ import { type Position } from '../types/types';
 
 type Props = {
     pageTitle: string;
-    bannerImage?: string;
+    description?: string | undefined;
+    bannerImage?: string | undefined;
     bannerAlign?: Position | undefined;
 };
 
-const { pageTitle, bannerImage: bannerUrl, bannerAlign = "top" } = Astro.props;
+const { pageTitle, description, bannerImage, bannerAlign = "center" } = Astro.props;
+const hasSubNav = Astro.slots.has('sub-navigation');
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description}>
     <slot name="head" slot="head" />
-    <div class="relative flex justify-center w-full overflow-x-clip">
-        {bannerUrl && <div style={`background-image: url(${bannerUrl}); background-position: ${bannerAlign}`} class="relative max-w-4xl h-56 bg-cover w-full" /> }
-        <div class="absolute bottom-0 max-w-4xl p-1 bg-white w-full bg-opacity-40 backdrop-blur border-t border-opacity-50 border-white">
-            <slot name="sub-navigation" />
+
+    {bannerImage && (
+        <div class="mx-auto max-w-content px-5 pt-6 sm:px-8 lg:px-10">
+            <div class="relative h-44 overflow-hidden rounded-2xl border border-line sm:h-60 md:h-72">
+                <div
+                    style={`background-image: url(${bannerImage}); background-position: ${bannerAlign}`}
+                    class="absolute inset-0 scale-105 bg-cover bg-no-repeat"
+                ></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-bg/10 to-transparent"></div>
+            </div>
         </div>
-    </div>
-    <div id="page" class="px-8 py-4 overflow-y-auto min-h-[calc(100vh-6rem)]">
-        <div class="max-w-4xl m-auto">
-            <slot />
+    )}
+
+    {hasSubNav && (
+        <div class="sticky top-16 z-30 border-b border-line/70 bg-bg/80 backdrop-blur-md">
+            <div class="mx-auto flex max-w-content items-center gap-1 overflow-x-auto px-5 py-2 sm:px-8 lg:px-10">
+                <slot name="sub-navigation" />
+            </div>
         </div>
+    )}
+
+    <div id="page" class="mx-auto w-full max-w-content px-5 py-12 sm:px-8 lg:px-10">
+        <slot />
     </div>
 </BaseLayout>
