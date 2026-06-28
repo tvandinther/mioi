@@ -1,0 +1,37 @@
+---
+// Light/dark toggle. Initial theme is set pre-paint by the inline script in
+// BaseLayout's <head> to avoid a flash of the wrong theme.
+---
+<button
+    id="theme-toggle"
+    type="button"
+    aria-label="Toggle colour theme"
+    title="Toggle theme"
+    class="group relative grid h-9 w-9 place-items-center rounded-full border border-line text-ink/80 transition-colors hover:border-accent hover:text-accent"
+>
+    <!-- sun (shown in dark mode) -->
+    <svg class="absolute h-[18px] w-[18px] scale-0 rotate-90 opacity-0 transition-all duration-300 dark:scale-100 dark:rotate-0 dark:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+    </svg>
+    <!-- moon (shown in light mode) -->
+    <svg class="absolute h-[18px] w-[18px] scale-100 rotate-0 opacity-100 transition-all duration-300 dark:scale-0 dark:-rotate-90 dark:opacity-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+</button>
+<script is:inline>
+    (function () {
+        function bind() {
+            var btn = document.getElementById('theme-toggle');
+            if (!btn || btn.dataset.bound) return;
+            btn.dataset.bound = '1';
+            btn.addEventListener('click', function () {
+                var dark = document.documentElement.classList.toggle('dark');
+                try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+                document.documentElement.style.setProperty('--theme-color', dark ? '#0d0d10' : '#faf9f6');
+            });
+        }
+        bind();
+        document.addEventListener('astro:after-swap', bind);
+    })();
+</script>

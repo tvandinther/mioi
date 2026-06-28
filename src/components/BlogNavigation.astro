@@ -1,8 +1,21 @@
 ---
-import Button from './Button.astro';
+const tabs = [
+    { href: "/blog", label: "Overview" },
+    { href: "/blog/posts", label: "All Posts" },
+    { href: "/blog/tags", label: "Tags" },
+];
+const path = Astro.url.pathname.replace(/\/$/, "");
+// Each tab is only active on its own index page — detail pages
+// (/blog/posts/<slug>, /blog/tags/<tag>) highlight nothing.
+const active = (t: { href: string }) => path === t.href;
 ---
-<div class="flex">
-    <Button link="/blog">Blog Home</Button>
-    <Button link="/blog/posts">All Posts</Button>
-    <Button link="/blog/tags">Tags</Button>
-</div>
+{tabs.map((t) => (
+    <a
+        href={t.href}
+        aria-current={active(t) ? "page" : undefined}
+        class={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-wide transition-colors
+            ${active(t) ? "bg-ink text-bg" : "text-muted hover:bg-elevated hover:text-ink"}`}
+    >
+        {t.label}
+    </a>
+))}

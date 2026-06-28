@@ -1,7 +1,20 @@
 ---
-import Button from './Button.astro';
+const path = Astro.url.pathname;
+const onIndex = path === "/projects" || path === "/projects/";
 ---
-<div class="flex">
-    <Button link="/projects">Projects Home</Button>
-    <Button external link="https://github.com/tvandinther">My GitHub</Button>
-</div>
+<a
+    href="/projects"
+    aria-current={onIndex ? "page" : undefined}
+    class={`whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-wide transition-colors
+        ${onIndex ? "bg-ink text-bg" : "text-muted hover:bg-elevated hover:text-ink"}`}
+>
+    All Projects
+</a>
+<a
+    href="https://github.com/tvandinther"
+    target="_blank"
+    rel="noopener"
+    class="ml-auto whitespace-nowrap rounded-full px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-wide text-muted transition-colors hover:text-accent"
+>
+    GitHub ↗
+</a>

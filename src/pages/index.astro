@@ -1,27 +1,93 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
 import BlogPostItem from "@components/BlogPostItem.astro";
-import Button from "@components/Button.astro";
-import PageTitle from "@components/PageTitle.astro";
 import ProjectItem from "@components/ProjectItem.astro";
 import { byLatest as byLatestPost } from "@helpers/posts";
 import { byLatest as byLatestProject } from "@helpers/projects";
 import { getCollection } from "astro:content";
-import PageLayout from "../layouts/PageLayout.astro";
-const pageTitle = "mioi";
-const featuredPosts = (await getCollection("blog")).filter((post) => post.data.featured).sort(byLatestPost);
-const featuredProjects = (await getCollection("projects")).filter((post) => post.data.featured).sort(byLatestProject);
+
+const pageTitle = "mioi — Tom van Dinther";
+const featuredProjects = (await getCollection("projects")).filter((p) => p.data.featured).sort(byLatestProject).slice(0, 4);
+const featuredPosts = (await getCollection("blog")).filter((p) => p.data.featured).sort(byLatestPost).slice(0, 4);
+
+const toolbelt = [
+  "Kubernetes", "GitOps", "ArgoCD", "Crossplane", "CUE", "KCL",
+  "Terraform", "Docker", "Haskell", "F#", "Bash", "CI/CD",
+];
 ---
-<PageLayout pageTitle={pageTitle}>
-  <PageTitle>Featured Projects</PageTitle>
-  <div class="flex flex-col">
-    {featuredProjects.map((project) => (
-      <ProjectItem project={project} />
-    ))}
-  </div>
-  <Button link="/projects">All Projects 〉</Button>
-  <PageTitle>Featured Blog Posts</PageTitle>
-  {featuredPosts.map((post) => (
-    <BlogPostItem post={post} />
-  ))}
-  <Button link="/blog">All Blog Posts 〉</Button>
-</PageLayout>
+<BaseLayout pageTitle={pageTitle}>
+  <Hero />
+
+  <!-- Selected work -->
+  <section class="mx-auto max-w-content px-5 py-20 sm:px-8 lg:px-10">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div>
+        <p class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
+          <span class="inline-block h-px w-6 bg-accent"></span>Selected Work
+        </p>
+        <h2 class="font-display text-3xl font-semibold tracking-tightest text-ink sm:text-4xl">Projects &amp; tools I've built</h2>
+      </div>
+      <a href="/projects" class="link-underline font-mono text-sm uppercase tracking-wide text-muted hover:text-accent">All projects →</a>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      {featuredProjects.map((project) => <ProjectItem project={project} />)}
+    </div>
+  </section>
+
+  <!-- Toolbelt strip -->
+  <section class="border-y border-line bg-surface/40">
+    <div class="mx-auto max-w-content px-5 py-12 sm:px-8 lg:px-10">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+        <p class="shrink-0 font-mono text-xs uppercase tracking-widest text-faint" data-reveal>
+          Things I<br class="hidden md:block" /> work with
+        </p>
+        <div class="flex flex-wrap gap-2.5" data-reveal style="--reveal-delay: 80ms">
+          {toolbelt.map((t) => (
+            <span class="rounded-full border border-line px-3.5 py-1.5 font-mono text-[13px] text-muted transition-colors hover:border-accent hover:text-accent">{t}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent writing -->
+  <section class="mx-auto max-w-content px-5 py-20 sm:px-8 lg:px-10">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div>
+        <p class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
+          <span class="inline-block h-px w-6 bg-accent"></span>From the Blog
+        </p>
+        <h2 class="font-display text-3xl font-semibold tracking-tightest text-ink sm:text-4xl">Writing &amp; ideas</h2>
+      </div>
+      <a href="/blog" class="link-underline font-mono text-sm uppercase tracking-wide text-muted hover:text-accent">All posts →</a>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      {featuredPosts.map((post) => <BlogPostItem post={post} />)}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-content px-5 pb-8 sm:px-8 lg:px-10">
+    <div class="bg-dotgrid relative overflow-hidden rounded-2xl border border-line px-8 py-14 text-center" data-reveal>
+      <h2 class="mx-auto max-w-2xl font-display text-3xl font-semibold tracking-tightest text-ink sm:text-4xl">
+        Let's build something that lasts.
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-muted">
+        I'm always happy to talk platforms, configuration languages, and developer experience.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="https://www.linkedin.com/in/tvandinther/" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-mono text-[13px] uppercase tracking-wide text-bg transition-colors hover:bg-accent">
+          Connect on LinkedIn <span class="transition-transform group-hover:translate-x-1">↗</span>
+        </a>
+        <a href="/about"
+           class="group inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[13px] uppercase tracking-wide text-ink transition-colors hover:border-accent hover:text-accent">
+          More about me <span class="transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

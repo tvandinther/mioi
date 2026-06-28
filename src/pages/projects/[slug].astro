@@ -2,8 +2,6 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
-import PageTitle from "@components/PageTitle.astro";
-import Button from "@components/Button.astro";
 import ProjectsNavigation from "@components/ProjectsNavigation.astro";
 
 export async function getStaticPaths() {
@@ -19,21 +17,61 @@ type Props = {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+const banner = project.data.banner?.url ?? project.data.image;
 ---
-<PageLayout pageTitle="Egg Inc. Companion App" 
-    bannerImage={project.data.banner?.url ?? "/assets/images/projects_banner.webp"}
+<PageLayout
+    pageTitle={`${project.data.title} — mioi`}
+    description={project.data.description}
+    bannerImage={banner}
     bannerAlign={project.data.banner?.anchor}
 >
+    <Fragment slot="head">
+        <meta property="og:title" content={project.data.title} />
+        <meta property="og:description" content={project.data.description} />
+        {banner && <meta property="og:image" content={banner} />}
+    </Fragment>
     <Fragment slot="sub-navigation">
         <ProjectsNavigation />
     </Fragment>
-    <PageTitle>{project.data.title}</PageTitle>
-    {project.data.image && <img src={project.data.image} class="m-auto w-full h-auto shadow-sm border-2 rounded border-gray-300">}
-    <div class="flex mb-2">
-        {project.data.url && <Button external link={project.data.url}>Go to site</Button>}
-        {project.data.sourceCodeUrl && <Button external link={project.data.sourceCodeUrl}>Source code</Button>}
-    </div>
-    <div class="prose-lg lg:prose-2xl prose-stone">
-        <Content />
-    </div>    
+
+    <article class="mx-auto max-w-3xl">
+        <header class="mb-10 border-b border-line pb-8">
+            <p class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
+                <span class="inline-block h-px w-6 bg-accent"></span>Project · {project.data.date.getFullYear()}
+            </p>
+            <h1 class="font-display text-4xl font-semibold leading-[1.08] tracking-tightest text-ink sm:text-5xl">
+                {project.data.title}
+            </h1>
+            <p class="mt-5 text-lg leading-relaxed text-muted">{project.data.description}</p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                {project.data.url && (
+                    <a href={project.data.url} target="_blank" rel="noopener"
+                       class="group inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 font-mono text-[13px] uppercase tracking-wide text-bg transition-colors hover:bg-accent">
+                        Visit site <span class="transition-transform group-hover:translate-x-1">↗</span>
+                    </a>
+                )}
+                {project.data.sourceCodeUrl && (
+                    <a href={project.data.sourceCodeUrl} target="_blank" rel="noopener"
+                       class="group inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-[13px] uppercase tracking-wide text-ink transition-colors hover:border-accent hover:text-accent">
+                        Source code <span class="transition-transform group-hover:translate-x-1">↗</span>
+                    </a>
+                )}
+            </div>
+        </header>
+
+        {project.data.image && (
+            <img src={project.data.image} alt={project.data.title} class="mb-10 w-full rounded-xl border border-line" />
+        )}
+
+        <div class="prose prose-mioi break-words lg:prose-lg">
+            <Content />
+        </div>
+
+        <footer class="mt-16 border-t border-line pt-8">
+            <a href="/projects" class="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wide text-muted transition-colors hover:text-accent">
+                <span aria-hidden="true" class="transition-transform group-hover:-translate-x-1">←</span> All projects
+            </a>
+        </footer>
+    </article>
 </PageLayout>

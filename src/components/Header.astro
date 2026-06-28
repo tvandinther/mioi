@@ -1,20 +1,45 @@
 ---
 import Hamburger from "./Hamburger.astro";
 import NavigationMenu from "./NavigationMenu.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
-<header transition:persist="header" class="flex bg-primary w-screen p-3 h-16 sticky z-50 [&.hide]:-top-16 top-0 transition-[top]">
-  <a href="/"><span class="relative bottom-2 font-display text-5xl text-page mr-8 ml-8 lg:ml-16">mioi.io</span></a>
-  <nav class="w-full">
-    <Hamburger />
-    <NavigationMenu />
-  </nav>
+<header
+  transition:persist="header"
+  class="sticky top-0 z-50 transition-[transform,background-color,border-color] duration-300 ease-out [&.hide]:-translate-y-full
+         border-b border-line/70 bg-bg/75 backdrop-blur-md supports-[backdrop-filter]:bg-bg/60"
+>
+  <div class="mx-auto flex h-16 max-w-content items-center gap-4 px-5 sm:px-8 lg:px-10">
+    <a href="/" class="group flex items-baseline gap-px font-display text-2xl font-bold tracking-tightest text-ink">
+      <span>mioi</span><span class="text-accent transition-transform duration-300 group-hover:-translate-y-0.5">.</span><span class="text-faint">io</span>
+    </a>
+
+    <div class="ml-auto flex items-center gap-2">
+      <NavigationMenu />
+      <ThemeToggle />
+      <Hamburger />
+    </div>
+  </div>
 </header>
 <script is:inline>
-  (function() {var p = window.scrollY;
-  const h = document.querySelector("header");
-  window.addEventListener("scroll", () => {
-    const c = window.scrollY;
-    if (window.scrollHiding.header) p > c ? h.classList.remove("hide") : h.classList.add("hide");
-    p = c;
-  })})();
+  (function () {
+    function bind() {
+      var h = document.querySelector("header");
+      if (!h || h.dataset.scrollBound) return;
+      h.dataset.scrollBound = "1";
+      var p = window.scrollY;
+      window.addEventListener("scroll", function () {
+        var c = window.scrollY;
+        if (window.scrollHiding && window.scrollHiding.header) {
+          var hide = !(p > c || c < 80);
+          h.classList.toggle("hide", hide);
+          // keep the sticky sub-navigation docked to the header as it hides/shows
+          var sub = document.getElementById("sub-nav");
+          if (sub) sub.classList.toggle("header-hidden", hide);
+        }
+        p = c;
+      }, { passive: true });
+    }
+    bind();
+    document.addEventListener("astro:after-swap", bind);
+  })();
 </script>

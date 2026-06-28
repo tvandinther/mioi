@@ -1,24 +1,48 @@
 ---
 ---
-<div id="hamburger" class="cursor-pointer lg:hidden w-10 ml-auto group">
-    <span class="block h-1 my-2 bg-slate-400 rounded-full transition-all group-hover:bg-page [.open>&]:rotate-45 [.open>&]:translate-y-3"></span>
-    <span class="block h-1 mb-2 bg-slate-400 rounded-full transition-all group-hover:bg-page [.open>&]:-rotate-45"></span>
-    <span class="block h-1 mb-2 bg-slate-400 rounded-full transition-all group-hover:bg-page [.open>&]:opacity-0"></span>
-</div>
+<button id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" class="group grid h-9 w-9 place-items-center lg:hidden">
+    <span class="relative block h-4 w-5">
+        <span class="absolute left-0 top-0 block h-0.5 w-5 rounded-full bg-ink transition-all duration-300 [.open_&]:top-1/2 [.open_&]:-translate-y-1/2 [.open_&]:rotate-45"></span>
+        <span class="absolute left-0 top-1/2 block h-0.5 w-5 -translate-y-1/2 rounded-full bg-ink transition-all duration-300 [.open_&]:opacity-0"></span>
+        <span class="absolute bottom-0 left-0 block h-0.5 w-5 rounded-full bg-ink transition-all duration-300 [.open_&]:bottom-1/2 [.open_&]:translate-y-1/2 [.open_&]:-rotate-45"></span>
+    </span>
+</button>
 <script>
-    (function() {
-        var o = false;
-        document.getElementById('hamburger')?.addEventListener('click', function() {
-            window.scrollHiding.header = o;
-            window.scrollHiding.footer = o;
-            document.getElementById('hamburger')?.classList.toggle('open');
-            document.getElementById('side-navigation')?.classList.toggle('open');
-            document.body.classList.toggle('overflow-hidden');
-            o = !o;
-        })
-
-        document.addEventListener('astro:after-swap', function() {
+    (function () {
+        function close(state: { open: boolean }) {
             document.getElementById('hamburger')?.classList.remove('open');
-        })
+            document.getElementById('hamburger')?.setAttribute('aria-expanded', 'false');
+            document.getElementById('side-navigation')?.classList.remove('open');
+            document.getElementById('side-navigation-overlay')?.classList.remove('open');
+            document.body.classList.remove('overflow-hidden');
+            window.scrollHiding.header = true;
+            window.scrollHiding.footer = true;
+            state.open = false;
+        }
+
+        function bind() {
+            const btn = document.getElementById('hamburger');
+            if (!btn || btn.dataset.bound) return;
+            btn.dataset.bound = '1';
+            const state = { open: false };
+
+            btn.addEventListener('click', function () {
+                state.open = !state.open;
+                window.scrollHiding.header = !state.open;
+                window.scrollHiding.footer = !state.open;
+                btn.classList.toggle('open', state.open);
+                btn.setAttribute('aria-expanded', String(state.open));
+                document.getElementById('side-navigation')?.classList.toggle('open', state.open);
+                document.getElementById('side-navigation-overlay')?.classList.toggle('open', state.open);
+                document.body.classList.toggle('overflow-hidden', state.open);
+            });
+
+            document.getElementById('side-navigation-overlay')?.addEventListener('click', () => close(state));
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(state); });
+            document.addEventListener('astro:after-swap', () => close(state));
+        }
+
+        bind();
+        document.addEventListener('astro:after-swap', bind);
     })();
 </script>

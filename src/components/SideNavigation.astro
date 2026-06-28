@@ -1,6 +1,16 @@
 ---
 import Navigation from '@components/Navigation.astro'
 ---
-<div id="side-navigation" class="fixed z-40 transition-all [&.open]:right-0 -right-80 w-80 top-0 p-2 pt-[4.5rem] overflow-x-clip overflow-y-auto h-full bg-primary flex flex-col">
-    <Navigation />
+<div
+    id="side-navigation"
+    class="fixed inset-y-0 right-0 z-40 flex w-80 max-w-[85vw] translate-x-full flex-col bg-surface px-6 pb-8 pt-24
+           shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] [&.open]:translate-x-0"
+>
+    <p class="mb-2 font-mono text-xs uppercase tracking-widest text-faint">Menu</p>
+    <Navigation variant="mobile" />
+    <div class="mt-auto flex gap-4 pt-8 font-mono text-xs uppercase tracking-wide text-muted">
+        <a href="https://github.com/tvandinther" target="_blank" rel="noopener" class="link-underline hover:text-accent">GitHub</a>
+        <a href="https://www.linkedin.com/in/tvandinther/" target="_blank" rel="noopener" class="link-underline hover:text-accent">LinkedIn</a>
+    </div>
 </div>
+<div id="side-navigation-overlay" class="fixed inset-0 z-30 bg-ink/40 opacity-0 backdrop-blur-sm transition-opacity duration-300 [&.open]:opacity-100 pointer-events-none [&.open]:pointer-events-auto"></div>

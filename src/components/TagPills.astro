@@ -6,17 +6,19 @@ type Props = {
 const { tags } = Astro.props;
 
 const results = tags.length > 0 && Array.isArray(tags[0]) ?
-    tags.map(([tagName, tagCount]) => [tagName, `${tagName} (${tagCount})`]) :
-    tags.map(tagName => [tagName, tagName]);
+    (tags as [string, number][]).map(([tagName, tagCount]) => [tagName, `${tagName}`, tagCount] as const) :
+    (tags as string[]).map(tagName => [tagName, tagName, null] as const);
 ---
-<div class="flex flex-wrap">
-    {results.map(([tagName, innerText]) => (
-        <a 
+<div class="flex flex-wrap gap-2">
+    {results.map(([tagName, innerText, count]) => (
+        <a
             transition:name={`tag-${tagName}`}
-            href={`/blog/tags/${tagName}`} 
-            class="inline-block no-underline bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 hover:bg-gray-300 whitespace-nowrap"
+            href={`/blog/tags/${tagName}`}
+            class="group inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1
+                   font-mono text-[12px] text-muted no-underline transition-colors hover:border-accent hover:text-accent"
         >
-            {innerText}
+            <span class="text-faint transition-colors group-hover:text-accent">#</span>{innerText}
+            {count !== null && <span class="text-faint">{count}</span>}
         </a>
     ))}
 </div>

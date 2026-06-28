@@ -8,15 +8,39 @@ type Props = {
 const { project } = Astro.props;
 const bannerUrl = project.data.banner?.url ?? project.data.image;
 const bannerAnchor = project.data.banner?.anchor ?? "center top";
+const year = project.data.date.getFullYear();
 ---
-<a href={`/projects/${project.slug}`}>
-    <div class="m-2 shadow-md hover:shadow-lg cursor-pointer overflow-x-clip">
-        {bannerUrl && <div style={`background-image: url(${bannerUrl}); background-position: ${bannerAnchor}`} class="bg-cover h-48 rounded-t-md min-h-[6rem]" />}
-        <div class="py-2 px-4">
-            <h2 class="text-2xl my-2">{project.data.title}</h2>
-            <p class="my-2">
-                {project.data.description}
-            </p>
+<a
+    href={`/projects/${project.slug}`}
+    data-reveal
+    class="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface
+           transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_18px_40px_-24px_rgb(var(--ink)/0.35)]"
+>
+    {bannerUrl ? (
+        <div class="relative aspect-[16/9] overflow-hidden">
+            <div
+                style={`background-image: url(${bannerUrl}); background-position: ${bannerAnchor}`}
+                class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105"
+            ></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface/30 to-transparent"></div>
         </div>
+    ) : (
+        <div class="bg-dotgrid relative aspect-[16/9] overflow-hidden">
+            <span class="absolute bottom-4 left-5 font-display text-3xl font-semibold text-line">{project.data.title}</span>
+        </div>
+    )}
+
+    <div class="flex flex-1 flex-col p-5">
+        <div class="mb-2 flex items-center justify-between gap-3">
+            <h3 class="font-display text-xl font-semibold tracking-tight text-ink transition-colors group-hover:text-accent">
+                {project.data.title}
+            </h3>
+            <span class="shrink-0 font-mono text-xs text-faint">{year}</span>
+        </div>
+        <p class="text-sm leading-relaxed text-muted">{project.data.description}</p>
+        <span class="mt-4 inline-flex items-center gap-1 font-mono text-[12px] uppercase tracking-wide text-accent">
+            View project
+            <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+        </span>
     </div>
 </a>

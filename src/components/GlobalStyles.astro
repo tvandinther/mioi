@@ -1,10 +1,121 @@
+---
+// Global theme tokens + base styles. Imported once from BaseLayout.
+---
+<style is:global>
+    /* ---- Theme tokens (RGB channels for Tailwind <alpha-value>) ---- */
+    :root {
+        --bg: 250 249 246;        /* warm paper */
+        --surface: 255 255 255;
+        --elevated: 255 255 255;
+        --ink: 24 23 28;          /* near-black */
+        --muted: 92 90 98;
+        --faint: 142 140 150;
+        --line: 228 225 219;
+        --accent: 226 84 18;      /* refined vermilion */
+        --accent-soft: 245 196 173;
+        --accent-wash: 253 240 233;
+
+        --grid: 0 0 0;            /* hairline grid tint */
+        --glow: 226 84 18;
+
+        color-scheme: light;
+    }
+
+    html.dark {
+        --bg: 13 13 16;           /* ink black */
+        --surface: 20 20 24;
+        --elevated: 27 27 32;
+        --ink: 237 236 240;
+        --muted: 162 160 170;
+        --faint: 110 108 120;
+        --line: 40 40 47;
+        --accent: 255 122 69;     /* brighter for dark */
+        --accent-soft: 120 64 40;
+        --accent-wash: 36 24 18;
+
+        --grid: 255 255 255;
+        --glow: 255 122 69;
+
+        color-scheme: dark;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+    }
+
+    body {
+        background-color: rgb(var(--bg));
+        color: rgb(var(--ink));
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    ::selection {
+        background-color: rgb(var(--accent) / 0.18);
+        color: rgb(var(--ink));
+    }
+
+    /* Subtle custom scrollbar */
+    * { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+    *::-webkit-scrollbar { width: 10px; height: 10px; }
+    *::-webkit-scrollbar-thumb {
+        background-color: rgb(var(--line));
+        border-radius: 999px;
+        border: 3px solid rgb(var(--bg));
+    }
+
+    /* ---- Scroll reveal ---- */
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--reveal-delay, 0ms);
+        will-change: opacity, transform;
+    }
+    [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        [data-reveal] { opacity: 1; transform: none; }
+    }
+
+    /* ---- Animated link underline utility ---- */
+    .link-underline {
+        background-image: linear-gradient(rgb(var(--accent)), rgb(var(--accent)));
+        background-size: 0% 1px;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        transition: background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .link-underline:hover { background-size: 100% 1px; }
+
+    /* Dotted grid backdrop helper */
+    .bg-dotgrid {
+        background-image: radial-gradient(rgb(var(--grid) / 0.10) 1px, transparent 1px);
+        background-size: 22px 22px;
+    }
+</style>
 <style is:global>
     @font-face {
         font-family: "Virgil";
         src: url("https://excalidraw.com/Virgil.woff2");
-      }
-      @font-face {
+    }
+    @font-face {
         font-family: "Cascadia";
         src: url("https://excalidraw.com/Cascadia.woff2");
-      }
+    }
 </style>

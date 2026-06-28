@@ -1,0 +1,105 @@
+---
+import Button from "./Button.astro";
+---
+<section
+    id="hero"
+    class="relative overflow-hidden border-b border-line"
+>
+    <!-- dotted grid + cursor-reactive glow -->
+    <div class="bg-dotgrid pointer-events-none absolute inset-0 opacity-70"></div>
+    <div
+        id="hero-glow"
+        class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500"
+        style="background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), rgb(var(--glow) / 0.14), transparent 70%);"
+    ></div>
+
+    <div class="relative mx-auto max-w-content px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:px-10 lg:pb-28">
+        <p class="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-accent" data-reveal>
+            <span class="inline-block h-px w-8 bg-accent"></span>
+            Platform &amp; DevOps Engineer
+        </p>
+
+        <h1
+            class="max-w-4xl font-display text-[2.6rem] font-semibold leading-[1.04] tracking-tightest text-ink sm:text-6xl lg:text-7xl"
+            data-reveal
+        >
+            I build the platforms that turn
+            <span class="relative whitespace-nowrap text-accent">declared&nbsp;intent</span>
+            into running systems.
+        </h1>
+
+        <p class="mt-7 max-w-xl text-lg leading-relaxed text-muted" data-reveal style="--reveal-delay: 80ms">
+            I'm <span class="font-medium text-ink">Tom van Dinther</span> — an IT specialist working in
+            platform engineering, GitOps and type-safe configuration. This is where I keep my projects,
+            writing, and the ideas I'm exploring.
+        </p>
+
+        <!-- terminal-flavoured typed line -->
+        <div
+            class="mt-9 inline-flex max-w-full items-center gap-3 rounded-xl border border-line bg-surface/70 px-4 py-3 font-mono text-sm backdrop-blur"
+            data-reveal
+            style="--reveal-delay: 160ms"
+        >
+            <span class="flex gap-1.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-accent/80"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-line"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-line"></span>
+            </span>
+            <span class="text-faint">~</span>
+            <span class="text-muted">$</span>
+            <span id="hero-type" class="text-ink"></span>
+            <span class="inline-block h-4 w-[2px] animate-blink bg-accent align-middle"></span>
+        </div>
+
+        <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal style="--reveal-delay: 240ms">
+            <Button link="/projects" inverted>View Projects</Button>
+            <Button link="/blog">Read Writing</Button>
+        </div>
+    </div>
+</section>
+<script is:inline>
+    (function () {
+        function init() {
+            // cursor-reactive glow
+            var hero = document.getElementById('hero');
+            var glow = document.getElementById('hero-glow');
+            if (hero && glow && !hero.dataset.glowBound && !window.matchMedia('(pointer: coarse)').matches) {
+                hero.dataset.glowBound = '1';
+                hero.addEventListener('pointermove', function (e) {
+                    var r = hero.getBoundingClientRect();
+                    glow.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                    glow.style.setProperty('--my', (e.clientY - r.top) + 'px');
+                    glow.style.opacity = '1';
+                });
+                hero.addEventListener('pointerleave', function () { glow.style.opacity = '0'; });
+            }
+
+            // typed rotating lines
+            var el = document.getElementById('hero-type');
+            if (!el || el.dataset.typing) return;
+            el.dataset.typing = '1';
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = 'whoami — platform engineer, builder, writer';
+                return;
+            }
+            var lines = [
+                'whoami → tom van dinther',
+                'kubectl apply -f ideas.yaml',
+                'cue vet config.cue && ship it',
+                'cat ~/notes/*.md  # the blog',
+            ];
+            var li = 0, ci = 0, deleting = false;
+            function tick() {
+                var full = lines[li];
+                el.textContent = full.slice(0, ci);
+                if (!deleting && ci < full.length) { ci++; setTimeout(tick, 55); }
+                else if (!deleting && ci === full.length) { deleting = true; setTimeout(tick, 1900); }
+                else if (deleting && ci > 0) { ci--; setTimeout(tick, 26); }
+                else { deleting = false; li = (li + 1) % lines.length; setTimeout(tick, 350); }
+            }
+            tick();
+        }
+        init();
+        document.addEventListener('astro:after-swap', init);
+    })();
+</script>

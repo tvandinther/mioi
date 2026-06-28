@@ -3,18 +3,21 @@ import PageTitle from "@components/PageTitle.astro";
 import ProjectItem from "@components/ProjectItem.astro";
 import ProjectsNavigation from "@components/ProjectsNavigation.astro";
 import PageLayout from "@layouts/PageLayout.astro";
+import { byLatest } from "@helpers/projects";
 import { getCollection } from "astro:content";
 
-const allProjects = await getCollection("projects");
+const allProjects = (await getCollection("projects")).sort(byLatest);
 ---
-<PageLayout pageTitle="Projects — mioi" bannerImage="/assets/images/projects_banner.webp">
+<PageLayout pageTitle="Projects — mioi" description="Tools, apps and experiments built by Tom van Dinther.">
     <Fragment slot="sub-navigation">
         <ProjectsNavigation />
     </Fragment>
-    <PageTitle>Projects</PageTitle>
-    <div class="flex flex-col">
-        {allProjects.sort((a, b) => a.data.date < b.data.date ? 1 : -1).map(project =>
-        <ProjectItem project={project} />
-        )}
+    <PageTitle eyebrow="Selected Work">Projects</PageTitle>
+    <p class="-mt-4 mb-12 max-w-2xl text-lg leading-relaxed text-muted" data-reveal>
+        A collection of the tools, applications and experiments I've built — from platform engineering
+        utilities to side projects I made for fun.
+    </p>
+    <div class="grid gap-5 sm:grid-cols-2">
+        {allProjects.map(project => <ProjectItem project={project} />)}
     </div>
 </PageLayout>

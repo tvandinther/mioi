@@ -1,23 +1,29 @@
 ---
 import BlogPostItem from "@components/BlogPostItem.astro";
+import PageTitle from "@components/PageTitle.astro";
 import TagPills from "@components/TagPills.astro";
 import { byLatest } from "@helpers/posts";
 import { getAllTagsCounts } from "@helpers/tags";
 import BlogLayout from "@layouts/BlogLayout.astro";
 import { getCollection } from 'astro:content';
 
-const latestPosts = (await getCollection('blog')).sort(byLatest).slice(0, 5);
-const popularTags = Object.entries((await getAllTagsCounts())).sort((a, b) => a[1] < b[1] ? 1 : -1).slice(0, 10);
+const latestPosts = (await getCollection('blog')).sort(byLatest).slice(0, 6);
+const popularTags = Object.entries((await getAllTagsCounts())).sort((a, b) => b[1] - a[1]).slice(0, 10);
 ---
-<BlogLayout pageTitle="Home">
-  <h1 class="text-3xl my-4">mioi Blog</h1>
-  <p>
-    Welcome to the mioi blog. I like to write about software development and technology. After official documentation, blogs are my favorite way to learn about new technologies and solve problems. When I fail to find information online, and go through the hard yards to find the solution myself, I like to document my learnings in a blog post to save the next person the trouble. As well as instructional posts, I also like to cover topics such as software development techniques, the tools and conceptual ideas.
+<BlogLayout pageTitle="Writing" description="Notes on platform engineering, GitOps, configuration languages and software design.">
+  <PageTitle eyebrow="The Blog">Writing &amp; ideas</PageTitle>
+
+  <p class="-mt-4 mb-12 max-w-2xl text-lg leading-relaxed text-muted" data-reveal>
+    After official documentation, blogs are my favourite way to learn. When I go through the hard
+    yards to solve something myself, I write it down to save the next person the trouble — alongside
+    posts on software techniques, tooling, and the ideas behind them.
   </p>
-  <h2 class="text-2xl my-4">Latest Posts</h2>
-  <div class="flex flex-col">
+
+  <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-faint" data-reveal>Latest posts</h2>
+  <div class="mb-14 flex flex-col gap-1">
     {latestPosts.map(post => <BlogPostItem post={post} />)}
   </div>
-  <h2 class="text-2xl my-4">Popular Tags</h2>
-  <TagPills tags={popularTags} />
+
+  <h2 class="mb-4 font-mono text-xs uppercase tracking-widest text-faint" data-reveal>Popular tags</h2>
+  <div data-reveal><TagPills tags={popularTags} /></div>
 </BlogLayout>

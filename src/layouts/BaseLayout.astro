@@ -1,26 +1,56 @@
 ---
 import Header from '@components/Header.astro';
-// import Footer from '@components/Footer.astro';
+import Footer from '@components/Footer.astro';
 import SideNavigation from "@components/SideNavigation.astro";
+import GlobalStyles from "@components/GlobalStyles.astro";
 import { ClientRouter } from 'astro:transitions';
 
 type Props = {
     pageTitle: string;
+    description?: string | undefined;
 }
 
-const { pageTitle } = Astro.props;
+const { pageTitle, description = "Tom van Dinther — IT specialist, platform & DevOps engineer. Projects, writing and ideas." } = Astro.props;
 ---
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Castoro&family=Martian+Mono&family=Poiret+One&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1a202c" />
-    <meta name="generator" content={Astro.generator} />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Set theme before paint to avoid a flash of the wrong theme. Runs on
+         first load and re-applies on view transitions (the swap copies the
+         incoming page's <html> attributes, which would otherwise drop .dark). -->
+    <script is:inline>
+        (function () {
+            function applyTheme() {
+                try {
+                    var stored = localStorage.getItem('theme');
+                    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    var dark = stored === 'dark' || (!stored && prefersDark);
+                    document.documentElement.classList.toggle('dark', dark);
+                } catch (e) {}
+            }
+            applyTheme();
+            document.addEventListener('astro:after-swap', applyTheme);
+        })();
+    </script>
+
+    <GlobalStyles />
     <slot name="head" />
+
     <!-- Google tag (gtag.js) -->
     <script async type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-8PPBKZ5GD1"></script>
     <script type="text/partytown">
@@ -28,19 +58,48 @@ const { pageTitle } = Astro.props;
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-8PPBKZ5GD1');
     </script>
     <title>{pageTitle}</title>
     <ClientRouter />
 </head>
-<body class="bg-page overflow-x-clip">
-    <Header />
-    <SideNavigation />
-    <slot />
-    <!-- <Footer /> -->
+<body class="min-h-screen overflow-x-clip antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-bg">Skip to content</a>
+    <div class="flex min-h-screen flex-col">
+        <Header />
+        <SideNavigation />
+        <main id="main" class="flex-1">
+            <slot />
+        </main>
+        <Footer />
+    </div>
+
+    <script>
+        window.scrollHiding = { header: true, footer: true };
+    </script>
+
+    <!-- Scroll-reveal observer (re-runs after view transitions) -->
+    <script is:inline>
+        (function () {
+            function setup() {
+                var els = document.querySelectorAll('[data-reveal]:not(.is-visible)');
+                if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    els.forEach(function (el) { el.classList.add('is-visible'); });
+                    return;
+                }
+                var io = new IntersectionObserver(function (entries, obs) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+                els.forEach(function (el) { io.observe(el); });
+            }
+            setup();
+            document.addEventListener('astro:after-swap', setup);
+        })();
+    </script>
 </body>
-<script>
-    window.scrollHiding = {header: true, footer: true};
-</script>
 </html>
