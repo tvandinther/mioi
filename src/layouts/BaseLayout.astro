@@ -30,16 +30,21 @@ const { pageTitle, description = "Tom van Dinther — IT specialist, platform & 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Set theme before paint to avoid a flash of the wrong theme -->
+    <!-- Set theme before paint to avoid a flash of the wrong theme. Runs on
+         first load and re-applies on view transitions (the swap copies the
+         incoming page's <html> attributes, which would otherwise drop .dark). -->
     <script is:inline>
         (function () {
-            try {
-                var stored = localStorage.getItem('theme');
-                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (stored === 'dark' || (!stored && prefersDark)) {
-                    document.documentElement.classList.add('dark');
-                }
-            } catch (e) {}
+            function applyTheme() {
+                try {
+                    var stored = localStorage.getItem('theme');
+                    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    var dark = stored === 'dark' || (!stored && prefersDark);
+                    document.documentElement.classList.toggle('dark', dark);
+                } catch (e) {}
+            }
+            applyTheme();
+            document.addEventListener('astro:after-swap', applyTheme);
         })();
     </script>
 
